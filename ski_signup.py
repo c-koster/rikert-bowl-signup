@@ -10,15 +10,25 @@ import datetime
 
 today = str(datetime.datetime.today()).split()[0]
 
-rikert_link = "https://rikertnordiccenter.ltibooking.com/purchase-path/product-details/13207?date=" + today
 
 
 driver = webdriver.Chrome(executable_path='/users/cultonkoster/Desktop/found-on-desktop/chromedriver')
 
 def rikert_signup(firstname,lastname,email,passholder_id,date=today):
 
+    rikert_link = "https://rikertnordiccenter.ltibooking.com/purchase-path/product-details/13207?date=" + today
+    ski_signup(firstname,lastname,email,passholder_id,rikert_link)
+
+def bowl_signup(firstname,lastname,email,passholder_id,date=today):
+
+    bowl_link = "https://middleburysnowbowl.ltibooking.com/purchase-path/product-details/13198?date=" + today
+    ski_signup(firstname,lastname,email,passholder_id,bowl_link)
+
+
+def ski_signup(firstname,lastname,email,passholder_id,link):
+    # ok they use the exact same system it just matters which page you start at..
     # go to the web addresss for today's date (or other if specified)
-    driver.get(rikert_link)
+    driver.get(link)
 
     # find (by text) and click continue button
     cont_button = driver.find_element_by_xpath("//*[text()[contains(., 'Continue')]]")
@@ -55,18 +65,17 @@ def rikert_signup(firstname,lastname,email,passholder_id,date=today):
     submit_button = driver.find_element_by_xpath("//*[text()[contains(., 'Submit Order')]]")
     submit_button.click()
 
-    print(f"Submitted a reservation for {lastname},{firstname} on {today}")
+    #print(f"Submitted a reservation for {lastname},{firstname} on {today}")
 
-
-# for if you're using this as a command line tool
+# if you're using this as a command line tool
 if __name__ == "__main__":
 
     import sys
     if len(sys.argv) == 5:
-        rikert_signup(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4])
+        bowl_signup(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4])
 
-    elif len(sys.argv) == 5:
-        rikert_signup(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],date=sys.argv[5])
+    elif len(sys.argv) == 6:
+        bowl_signup(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],date=sys.argv[5])
 
     else:
         print(f"usage: python3 {sys.argv[0]} <first> <last> <email> <id> (YYYY-MM-DD)")

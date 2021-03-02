@@ -9,7 +9,7 @@ note: you need to input:
 <last>
 <email>
 <id>
-(YYYY-MM-DD) - optionally pick another date
+<YYYY-MM-DD> - optionally pick a date
 <isBowl> - boolean value if you want to signup for the bowl or rikert
 
 xoxo happy skiing

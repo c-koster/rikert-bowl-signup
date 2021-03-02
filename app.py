@@ -12,14 +12,17 @@ app = Flask(__name__)
 def index():
     if request.method == "POST":
         # handle api request
-        data = json.loads(request.data)
+        req = request.get_json()
+        data = json.loads(req)
+        print(data)
         try:
             # parse everything in the request
-            first = data['fist']
-            label = data['last']
+            first = data['first']
+            last = data['last']
             email = data['email']
             id = data['id']
-            isBowl = data['isBowl']
+            isBowl = int(data['isBowl'])
+            #today = data['day']
         except KeyError:
             return jsonify({'statusCode':400})
 
@@ -33,7 +36,7 @@ def index():
         if response:
             return jsonify({'statusCode':200})
         # if the response from ski_signup comes out false, there's something wrong with your inputs
-        return jsonify({'statusCode':402})
+        return jsonify({'statusCode':418})
 
     else: # then return the instructions instead
         return render_template("index.html")

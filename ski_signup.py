@@ -25,57 +25,60 @@ if os.environ.get("LOCAL"):
 driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
 def rikert_signup(firstname,lastname,email,passholder_id,date=today):
-
     rikert_link = "https://rikertnordiccenter.ltibooking.com/purchase-path/product-details/13207?date=" + today
-    ski_signup(firstname,lastname,email,passholder_id,rikert_link)
+    return ski_signup(firstname,lastname,email,passholder_id,rikert_link)
 
 def bowl_signup(firstname,lastname,email,passholder_id,date=today):
 
     bowl_link = "https://middleburysnowbowl.ltibooking.com/purchase-path/product-details/13198?date=" + today
-    ski_signup(firstname,lastname,email,passholder_id,bowl_link)
+    return ski_signup(firstname,lastname,email,passholder_id,bowl_link)
 
 
 def ski_signup(firstname,lastname,email,passholder_id,link):
     # ok they use the exact same system it just matters which page you start at..
     # go to the web addresss for today's date (or other if specified)
-    driver.get(link)
+    try:
+        driver.get(link)
 
-    # find (by text) and click continue button
-    cont_button = driver.find_element_by_xpath("//*[text()[contains(., 'Continue')]]")
-    cont_button.click()
+        # find (by text) and click continue button
+        cont_button = driver.find_element_by_xpath("//*[text()[contains(., 'Continue')]]")
+        cont_button.click()
 
-    # enter first name, last name, and email
-    first_box = driver.find_element_by_id("v1_user_account_first_name")
-    first_box.send_keys(firstname)
+        # enter first name, last name, and email
+        first_box = driver.find_element_by_id("v1_user_account_first_name")
+        first_box.send_keys(firstname)
 
-    last_box = driver.find_element_by_id("v1_user_account_last_name")
-    last_box.send_keys(lastname)
+        last_box = driver.find_element_by_id("v1_user_account_last_name")
+        last_box.send_keys(lastname)
 
-    email_box = driver.find_element_by_id("v1_user_account_email")
-    email_box.send_keys(email)
+        email_box = driver.find_element_by_id("v1_user_account_email")
+        email_box.send_keys(email)
 
 
-    save_button = driver.find_element_by_xpath("//*[text()[contains(., 'Save Your Information')]]")
-    save_button.click()
+        save_button = driver.find_element_by_xpath("//*[text()[contains(., 'Save Your Information')]]")
+        save_button.click()
 
-    # same for passholder info
-    first_box = driver.find_element_by_id("v1_purchase_order_line_items_attributes_0_first_name")
-    first_box.send_keys(firstname)
+        # same for passholder info
+        first_box = driver.find_element_by_id("v1_purchase_order_line_items_attributes_0_first_name")
+        first_box.send_keys(firstname)
 
-    last_box = driver.find_element_by_id("v1_purchase_order_line_items_attributes_0_last_name")
-    last_box.send_keys(lastname)
+        last_box = driver.find_element_by_id("v1_purchase_order_line_items_attributes_0_last_name")
+        last_box.send_keys(lastname)
 
-    res_box = driver.find_element_by_id("v1_purchase_order_line_items_attributes_0_custom_value_1")
-    res_box.send_keys(passholder_id)
+        res_box = driver.find_element_by_id("v1_purchase_order_line_items_attributes_0_custom_value_1")
+        res_box.send_keys(passholder_id)
 
-    save_button = driver.find_element_by_xpath("//*[text()[contains(., 'Save Passholder Information')]]")
-    save_button.click()
+        save_button = driver.find_element_by_xpath("//*[text()[contains(., 'Save Passholder Information')]]")
+        save_button.click()
 
-    # last page push send!
-    submit_button = driver.find_element_by_xpath("//*[text()[contains(., 'Submit Order')]]")
-    submit_button.click()
+        # last page push send!
+        submit_button = driver.find_element_by_xpath("//*[text()[contains(., 'Submit Order')]]")
+        submit_button.click()
+        #print(f"Submitted a reservation for {lastname},{firstname} on {today}")
 
-    #print(f"Submitted a reservation for {lastname},{firstname} on {today}")
+        return True
+    except:
+        return False
 
 # if you're using this as a command line tool
 if __name__ == "__main__":

@@ -1,1 +1,41 @@
-<h1>Hello world!</h1>
+<html>
+    <head>
+        <title>Rikert and Snowbowl Signup Site</title>
+    </head>
+    <body>
+        <h1>Rikert Bowl Signups</h1>
+        <p>Hello! This is a simple web app to help with rikert and snowbowl signups.
+            A link to the Github repository can be found <a href="https://github.com/c-koster/rikert-bowl-signup">here</a>,
+            and some code examples on getting it to work are shown below.
+        </p>
+
+        <h4>Input Parameters</h4>
+        <p>
+            first - your fisrt name <br>
+            last - your last name <br>
+            email - your midd email address <br>
+            id - the pass number on your id -- put 00000 if not applicable <br>
+            day - the date you're looking to sign up for in (YYYY-MM-DD). Defaults to today's date. this isn't working yet btw <br>
+            isBowl - put 1 if you want to sign up for the snowbowl, 0 for rikert<br>
+        </p>
+
+
+
+        <div>
+        <h3>Here is a python example:</h3>
+        <code>
+            import requests <br>
+            import json <br>
+            data = {'first': 'culton','last': 'koster','email':'ckoster@middlebury.edu','id':'00000','isBowl':0} <br>
+            r = requests.post('https://rikert-bowl-signup.herokuapp.com/',json=json.dumps(data)) <br>
+            print(r.text) <br>
+        </code>
+        </div>
+        <div>
+        <h3>And a curl example:</h3>
+        <code>
+            can't get this one to work atm
+        </code>
+        </div>
+    </body>
+</html>

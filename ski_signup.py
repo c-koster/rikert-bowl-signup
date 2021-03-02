@@ -6,13 +6,23 @@ and id locators to navigate through the reservation page.
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 
+import os
 import datetime
 
 today = str(datetime.datetime.today()).split()[0]
 
 
+# setup if running on heroku -- implies there is an environment variable called 'LOCAL'
+chrome_options = webdriver.ChromeOptions()
 
-driver = webdriver.Chrome(executable_path='/users/cultonkoster/Desktop/found-on-desktop/chromedriver')
+if os.environ.get("LOCAL"):
+
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+
+driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
 def rikert_signup(firstname,lastname,email,passholder_id,date=today):
 
@@ -72,10 +82,10 @@ if __name__ == "__main__":
 
     import sys
     if len(sys.argv) == 5:
-        bowl_signup(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4])
+        rikert_signup(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4])
 
     elif len(sys.argv) == 6:
-        bowl_signup(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],date=sys.argv[5])
+        rikert_signup(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],date=sys.argv[5])
 
     else:
         print(f"usage: python3 {sys.argv[0]} <first> <last> <email> <id> (YYYY-MM-DD)")
